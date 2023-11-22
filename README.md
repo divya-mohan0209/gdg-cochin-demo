@@ -20,7 +20,5 @@ We will be leveraging kube-green to shut down/start up services per schedule.
   - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
   - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-- [Spin by Fermyon](https://developer.fermyon.com/spin/v2/index) => Framework for building & running event-driven microservice applications with WebAssembly components
-
 - [kube-green](https://kube-green.dev) => Kubernetes add-on to automatically schedule shut down resources when you don't need them.
-
+  - [cert-manager](https://cert-manager.io/docs/installation/)
