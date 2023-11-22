@@ -5,7 +5,8 @@
 1. Download [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 2. Once done, [Enable Tech Preview feature for Wasm](https://www.docker.com/blog/docker-wasm-technical-preview/) so that you can run Wasm workloads.
 3. Download [k3d](https://k3d.io/v5.6.0/)
-4. Download [kube-green](https://kube-green.dev)
+4. Download & install [cert-manager](https://cert-manager.io/docs/installation/)
+5. Download [kube-green](https://kube-green.dev)
 
 ## Deployment
 
@@ -21,3 +22,98 @@ kubectl apply -f https://github.com/deislabs/containerd-wasm-shims/raw/main/depl
 ```shell
 kubectl apply -f https://github.com/deislabs/containerd-wasm-shims/raw/main/deployments/workloads/workload.yaml
 ```
+
+## Checkpoint #1
+
+1. Check whether all the applications have been deployed and are running correctly by executing `kubectl get all`. You should see something like this as the output.
+
+```shell
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/wasm-spin-646cfdc78d-nv84k      1/1     Running   0          12m
+pod/wasm-slight-75d7569758-x2cd4    1/1     Running   0          32s
+pod/wasm-wws-5f877c6d6f-dcf8w       1/1     Running   0          32s
+pod/wasm-lunatic-787dc678f9-zgtpt   1/1     Running   0          32s
+
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes     ClusterIP   10.43.0.1       <none>        443/TCP   65m
+service/wasm-slight    ClusterIP   10.43.103.215   <none>        80/TCP    12m
+service/wasm-spin      ClusterIP   10.43.61.114    <none>        80/TCP    12m
+service/wasm-wws       ClusterIP   10.43.90.121    <none>        80/TCP    12m
+service/wasm-lunatic   ClusterIP   10.43.10.48     <none>        80/TCP    12m
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/wasm-spin      1/1     1            1           12m
+deployment.apps/wasm-slight    1/1     1            1           12m
+deployment.apps/wasm-wws       1/1     1            1           12m
+deployment.apps/wasm-lunatic   1/1     1            1           12m
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/wasm-spin-646cfdc78d      1         1         1       12m
+replicaset.apps/wasm-slight-75d7569758    1         1         1       12m
+replicaset.apps/wasm-wws-5f877c6d6f       1         1         1       12m
+replicaset.apps/wasm-lunatic-787dc678f9   1         1         1       12m
+```
+
+2. You can also check the response from each of the applications by issuing curl commands as below:
+  - Spin
+
+  ```shell
+  curl -v http://127.0.0.1:8081/spin/hello
+  ```
+  - Slight
+
+  ```shell
+  curl -v http://127.0.0.1:8081/slight/hello
+  ```
+
+  - Lunatic
+
+  ```shell
+  curl -v http://127.0.0.1:8081/lunatic/hello
+  ```
+
+  - Wasm Workers Server
+
+  ```shell
+  curl -v http://127.0.0.1:8081/spin/hello
+  ```
+
+## Resource shutdown
+
+1. Download the sleepInfo.yaml manifest file from [manifests]()
+2. Tailor it to your needs (change the timing or the application being shutdown)
+3. Execute the below command
+
+```shell
+kubectl apply -f sleepInfo.yaml
+```
+
+## Verification - Checkpoint #2
+
+1. Execute `kubectl get all`. If you've used the same sleepInfo.yaml and have only altered the time, the output should look something like:
+
+```shell
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/wasm-spin-646cfdc78d-nv84k   1/1     Running   0          8m53s
+
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes     ClusterIP   10.43.0.1       <none>        443/TCP   61m
+service/wasm-slight    ClusterIP   10.43.103.215   <none>        80/TCP    8m53s
+service/wasm-spin      ClusterIP   10.43.61.114    <none>        80/TCP    8m53s
+service/wasm-wws       ClusterIP   10.43.90.121    <none>        80/TCP    8m53s
+service/wasm-lunatic   ClusterIP   10.43.10.48     <none>        80/TCP    8m53s
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/wasm-spin      1/1     1            1           8m53s
+deployment.apps/wasm-lunatic   0/0     0            0           8m53s
+deployment.apps/wasm-wws       0/0     0            0           8m53s
+deployment.apps/wasm-slight    0/0     0            0           8m53s
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/wasm-spin-646cfdc78d      1         1         1       8m53s
+replicaset.apps/wasm-lunatic-787dc678f9   0         0         0       8m53s
+replicaset.apps/wasm-slight-75d7569758    0         0         0       8m53s
+replicaset.apps/wasm-wws-5f877c6d6f       0         0         0       8m53s
+```
+
+2. You can even execute the curl commands individually against the apps that have been shutdown to verify.
