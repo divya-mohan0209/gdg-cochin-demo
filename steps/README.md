@@ -5,6 +5,7 @@
 1. Download [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 2. Once done, [Enable Tech Preview feature for Wasm](https://www.docker.com/blog/docker-wasm-technical-preview/) so that you can run Wasm workloads.
 3. Download [k3d](https://k3d.io/v5.6.0/)
+4. Download [kube-green](https://kube-green.dev)
 
 ## Deployment
 
