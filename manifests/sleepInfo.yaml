@@ -1,0 +1,13 @@
+apiVersion: kube-green.com/v1alpha1
+kind: SleepInfo
+metadata:
+  name: sleep-test
+spec:
+  weekdays: "*"
+  sleepAt: "17:25"
+  wakeUpAt: "17:30"
+  timeZone: "Asia/Kolkata"
+  excludeRef:
+    - apiVersion: "apps/v1"
+      kind:       Deployment
+      name:       wasm-spin
