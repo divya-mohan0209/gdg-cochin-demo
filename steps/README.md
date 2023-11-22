@@ -88,7 +88,7 @@ replicaset.apps/wasm-lunatic-787dc678f9   1         1         1       12m
 kubectl apply -f sleepInfo.yaml
 ```
 
-## Verification - Checkpoint #2
+## Checkpoint #2
 
 1. Execute `kubectl get all`. If you've used the same sleepInfo.yaml and have only altered the time, the output should look something like:
 
