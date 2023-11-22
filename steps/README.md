@@ -80,7 +80,7 @@ replicaset.apps/wasm-lunatic-787dc678f9   1         1         1       12m
 
 ## Resource shutdown
 
-1. Download the sleepInfo.yaml manifest file from [manifests]()
+1. Download the sleepInfo.yaml manifest file from [manifests](../manifests)
 2. Tailor it to your needs (change the timing or the application being shutdown)
 3. Execute the below command
 
