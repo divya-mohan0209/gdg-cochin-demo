@@ -135,6 +135,14 @@ until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo ""; 
 kubectl apply -f manifests/
 ```
 
+- In order to view our workloads in the browser, we'll use port-forwarding
+
+```shell
+kubectl -n monitoring port-forward svc/grafana 3000
+```
+
+This should make the grafana dashboard available on: **http://localhost:3000/**
+
 ## Resource shutdown
 
 1. Download the sleepInfo.yaml manifest file from [manifests](../manifests)
