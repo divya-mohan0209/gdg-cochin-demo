@@ -143,6 +143,16 @@ kubectl -n monitoring port-forward svc/grafana 3000
 
 This should make the grafana dashboard available on: **http://localhost:3000/**
 
+## Experiment
+
+- We're going to *spam* our wws workload with curl requests.
+
+```shell
+while sleep 5; do curl http://127.0.0.1:8081/wws/hello; done
+```
+
+- On the grafana dasboard,we will visualize what this will do to the workload.
+
 ## Resource shutdown
 
 1. Download the sleepInfo.yaml manifest file from [manifests](../manifests)
